@@ -2,8 +2,7 @@ package main
 
 import (
 	"errors"
-
-	slic6 "github.com/ashcoder666/boot.dev.go/contents/slice-chapter/sli-c6"
+	"fmt"
 )
 
 // loop4 "github.com/ashcoder666/boot.dev.go/contents/loops-chapter/loop-4"
@@ -11,24 +10,30 @@ import (
 // structs3 "github.com/ashcoder666/boot.dev.go/contents/structs-chapter/structs-3"
 
 func main() {
-	dbErrors := []error{
-		errors.New("out of memory"),
-		errors.New("cpu is pegged"),
-		errors.New("networking issue"),
-		errors.New("invalid syntax"),
-	}
-	slic6.Test("Error on database server", dbErrors, colonDelimit)
 
-	mailErrors := []error{
-		errors.New("email too large"),
-		errors.New("non alphanumeric symbols found"),
-	}
-	slic6.Test("Error on mail server", mailErrors, commaDelimit)
+	// map study
+	fmt.Println(getUserMap([]string{"Eren", "Armin", "Mikasa"}, []int{14355550987, 98765550987, 18265554567}))
 }
 
-func colonDelimit(first, second string) string {
-	return first + ": " + second
+func getUserMap(names []string, phoneNumbers []int) (map[string]user, error) {
+	detailMap := make(map[string]user)
+	if len(names) != len(phoneNumbers) {
+		return nil, errors.New("invalid sizes")
+	}
+
+	for _, name := range names {
+		for _, number := range phoneNumbers {
+			detailMap[name] = user{
+				name:        name,
+				phoneNumber: number,
+			}
+		}
+	}
+
+	return detailMap, nil
 }
-func commaDelimit(first, second string) string {
-	return first + ", " + second
+
+type user struct {
+	name        string
+	phoneNumber int
 }
